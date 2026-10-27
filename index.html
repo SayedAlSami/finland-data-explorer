@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finland Data Explorer</title>
+
+    <meta
+        name="description"
+        content="Explore Finnish municipal population, employment and unemployment statistics using interactive maps and charts."
+    >
+
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <!-- Frappe Charts CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/frappe-charts@1.6.2/dist/frappe-charts.min.css"
+    >
+
+    <!-- Existing dashboard stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- Sidebar navigation -->
+    <aside class="sidebar">
+
+        <a href="#overview" class="brand">
+            <span class="brand-icon">FD</span>
+            <span>
+                Finland Data
+                <span class="brand-light">Explorer</span>
+            </span>
+        </a>
+
+        <p class="sidebar-label">MAIN MENU</p>
+
+        <nav class="navigation">
+            <a href="#overview" class="nav-link active">Dashboard</a>
+            <a href="#statistics" class="nav-link">Statistics</a>
+            <a href="#map-section" class="nav-link">Municipality Map</a>
+            <a href="#chart-section" class="nav-link">Data Visualization</a>
+            <a href="#municipality-details" class="nav-link">Municipality Details</a>
+            <a href="#analysis-section" class="nav-link">Data Analysis</a>
+            <a href="#sources-section" class="nav-link">Data Sources</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="status-dot"></span>
+            <span>Statistics dashboard</span>
+        </div>
+
+    </aside>
+
+    <!-- Main dashboard -->
+    <main class="main-content" id="overview">
+
+        <!-- Top heading -->
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">STATISTICS DASHBOARD</p>
+                <h1>Finland Data Explorer</h1>
+            </div>
+
+            <div class="topbar-badge">
+                <span class="status-dot"></span>
+                Finnish Municipal Statistics
+            </div>
+        </header>
+
+        <!-- Welcome section -->
+        <section class="welcome-section">
+
+            <div>
+                <p class="eyebrow">DATA EXPLORATION PLATFORM</p>
+
+                <h2>Discover Finland through data</h2>
+
+                <p>
+                    Explore population, employment and unemployment
+                    statistics across Finnish municipalities using
+                    interactive maps and charts.
+                </p>
+            </div>
+
+            <div class="feature-badge">
+                308 Municipalities
+            </div>
+
+        </section>
+
+        <!-- Statistics summary cards -->
+        <section class="stats-grid" id="statistics">
+
+            <article class="stat-card">
+                <div class="stat-heading">
+                    <span>Population</span>
+                    <span class="stat-icon">P</span>
+                </div>
+
+                <h3 class="stat-value" id="population-summary">
+                    Loading...
+                </h3>
+
+                <p class="stat-description">
+                    Population statistics · 2025
+                </p>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-heading">
+                    <span>Employment</span>
+                    <span class="stat-icon">E</span>
+                </div>
+
+                <h3 class="stat-value" id="employment-summary">
+                    Loading...
+                </h3>
+
+                <p class="stat-description">
+                    Employment statistics · 2024
+                </p>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-heading">
+                    <span>Unemployment</span>
+                    <span class="stat-icon">U</span>
+                </div>
+
+                <h3 class="stat-value" id="unemployment-summary">
+                    Loading...
+                </h3>
+
+                <p class="stat-description">
+                    Unemployment statistics · 2024
+                </p>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-heading">
+                    <span>Data Coverage</span>
+                    <span class="stat-icon">308</span>
+                </div>
+
+                <h3 class="stat-value">308</h3>
+
+                <p class="stat-description">
+                    Finnish municipalities
+                </p>
+            </article>
+
+        </section>
+
+        <!-- Drag-and-drop data items -->
+        <section class="panel data-shelf" id="data-shelf" aria-labelledby="data-shelf-title">
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">INTERACTIVE DATA TOOLS</p>
+                    <h2 id="data-shelf-title">Drag a data item to a visualization</h2>
+                </div>
+                <span class="feature-badge">Drag and drop</span>
+            </div>
+            <p class="panel-description">Drag any indicator onto the map or chart. On touch devices, use the buttons to send an indicator to a visualization.</p>
+            <div class="data-item-grid">
+                <button type="button" class="data-item" draggable="true" data-indicator="population"><strong>Population</strong><span>2025 · people</span><span class="mobile-data-actions"><span data-target="map">Use on map</span><span data-target="chart">Use on chart</span></span></button>
+                <button type="button" class="data-item" draggable="true" data-indicator="employment"><strong>Employment</strong><span>2024 · people</span><span class="mobile-data-actions"><span data-target="map">Use on map</span><span data-target="chart">Use on chart</span></span></button>
+                <button type="button" class="data-item" draggable="true" data-indicator="unemployment"><strong>Unemployment</strong><span>2024 · people</span><span class="mobile-data-actions"><span data-target="map">Use on map</span><span data-target="chart">Use on chart</span></span></button>
+                <button type="button" class="data-item" draggable="true" data-indicator="employment-rate"><strong>Employment rate</strong><span>Derived · % of population</span><span class="mobile-data-actions"><span data-target="map">Use on map</span><span data-target="chart">Use on chart</span></span></button>
+                <button type="button" class="data-item" draggable="true" data-indicator="unemployment-rate"><strong>Unemployment rate</strong><span>Derived · % of labour force proxy</span><span class="mobile-data-actions"><span data-target="map">Use on map</span><span data-target="chart">Use on chart</span></span></button>
+            </div>
+            <p id="drag-drop-status" class="interaction-status" aria-live="polite">Ready. Choose an indicator to explore.</p>
+        </section>
+
+        <!-- Map and chart -->
+        <div class="visualization-grid">
+
+            <!-- Municipality map -->
+            <section class="panel" id="map-section">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">GEOGRAPHIC OVERVIEW</p>
+                        <h2>Municipality Map</h2>
+                    </div>
+
+                    <span class="feature-badge">Interactive</span>
+                </div>
+
+                <p class="panel-description">
+                    Explore Finnish municipalities and compare
+                    population, employment and unemployment.
+                    Select a municipality to see its statistics.
+                </p>
+
+                <label class="compact-control" for="map-layer-select">
+                    Map layer
+
+                    <select id="map-layer-select">
+                        <option value="population">Population</option>
+                        <option value="employment">Employment</option>
+                        <option value="unemployment">Unemployment</option>
+                        <option value="employment-rate">Employment rate (%)</option>
+                        <option value="unemployment-rate">Unemployment rate (%)</option>
+                    </select>
+                </label>
+
+                <div
+                    id="finland-map"
+                    role="application"
+                    aria-label="Interactive map of Finnish municipalities"
+                ></div>
+
+                <div class="map-legend">
+                    <span class="legend-dot"></span>
+                    <span id="map-legend-text">Population (2025)</span>
+                </div>
+
+            </section>
+
+            <!-- Statistical chart -->
+            <section class="panel" id="chart-section">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">STATISTICAL TRENDS</p>
+                        <h2>Data Visualization</h2>
+                    </div>
+                </div>
+
+                <p class="panel-description">
+                    Compare statistical indicators across
+                    Finnish municipalities.
+                </p>
+
+                <label class="compact-control" for="chart-indicator-select">
+                    Indicator
+
+                    <select id="chart-indicator-select">
+                        <option value="population">Population</option>
+                        <option value="employment">Employment</option>
+                        <option value="unemployment">Unemployment</option>
+                        <option value="employment-rate">Employment rate (%)</option>
+                        <option value="unemployment-rate">Unemployment rate (%)</option>
+                    </select>
+                </label>
+
+                <div class="chart-actions">
+                    <button type="button" id="download-chart-svg" class="secondary-button">Download chart SVG</button>
+                    <button type="button" id="download-chart-png" class="secondary-button">Download chart PNG</button>
+                </div>
+
+                <h3 id="chart-title">
+                    Top 10 Municipalities by Population
+                </h3>
+
+                <div
+                    id="statistics-chart"
+                    role="img"
+                    aria-label="Chart comparing the ten municipalities with the highest selected statistical values"
+                >
+                    <div class="chart-placeholder">
+                        Loading chart data...
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+
+        <!-- Municipality details: opened by clicking a municipality on the map -->
+        <section class="panel municipality-details-panel" id="municipality-details" hidden>
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">MUNICIPALITY PROFILE</p>
+                    <h2 id="municipality-details-title">Municipality details</h2>
+                </div>
+                <button type="button" id="close-municipality-details" class="secondary-button">Close details</button>
+            </div>
+            <p class="panel-description">A local comparison of available population and labour-market indicators.</p>
+            <div id="municipality-detail-summary" class="detail-summary-grid"></div>
+            <div id="municipality-detail-chart" class="detail-chart" role="img" aria-label="Selected municipality statistics chart"></div>
+        </section>
+
+        <!-- Data analysis -->
+        <section class="panel analysis-panel" id="analysis-section">
+
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">CUSTOM WORKSPACE</p>
+                    <h2>Data Analysis</h2>
+                </div>
+
+                <span class="feature-badge">Explore the data</span>
+            </div>
+
+            <p class="panel-description">
+                Calculate totals, averages, minimums and maximums,
+                or identify municipalities with the highest values.
+            </p>
+
+            <div class="toolbox-grid">
+
+                <div class="toolbox-item">
+                    <span class="toolbox-symbol">Σ</span>
+                    <div>
+                        <strong>Total</strong>
+                        <p>Calculate the sum of values.</p>
+                    </div>
+                </div>
+
+                <div class="toolbox-item">
+                    <span class="toolbox-symbol">Ø</span>
+                    <div>
+                        <strong>Average</strong>
+                        <p>Calculate the average value.</p>
+                    </div>
+                </div>
+
+                <div class="toolbox-item">
+                    <span class="toolbox-symbol">↕</span>
+                    <div>
+                        <strong>Rankings</strong>
+                        <p>Compare municipalities.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="panel-header">
+
+                <label class="compact-control" for="analysis-indicator-select">
+                    Statistical indicator
+
+                    <select id="analysis-indicator-select">
+                        <option value="population">Population</option>
+                        <option value="employment">Employment</option>
+                        <option value="unemployment">Unemployment</option>
+                        <option value="employment-rate">Employment rate (%)</option>
+                        <option value="unemployment-rate">Unemployment rate (%)</option>
+                    </select>
+                </label>
+
+                <label class="compact-control" for="analysis-operation-select">
+                    Operation
+
+                    <select id="analysis-operation-select">
+                        <option value="top10">Top 10 municipalities</option>
+                        <option value="average">Average</option>
+                        <option value="total">Total</option>
+                        <option value="minimum">Minimum</option>
+                        <option value="maximum">Maximum</option>
+                    </select>
+                </label>
+
+            </div>
+
+            <p style="margin-top: 18px;">
+                <button id="run-analysis-button" type="button">
+                    Run Analysis
+                </button>
+            </p>
+
+            <div
+                id="analysis-results"
+                class="drop-zone"
+                aria-live="polite"
+            >
+                <p>Select an indicator and operation to begin.</p>
+            </div>
+
+            <p class="analysis-status">
+                Analysis results are calculated from the available
+                municipal statistics.
+            </p>
+
+        </section>
+
+        <!-- User-defined data combination -->
+        <section class="panel analysis-panel" id="combined-analysis-section">
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">COMBINE DATA</p>
+                    <h2>Build a custom indicator</h2>
+                </div>
+                <span class="feature-badge">User-defined operation</span>
+            </div>
+            <p class="panel-description">Choose two indicators and an operation. The app calculates a value for each municipality and visualizes the ten highest results. Division by zero and missing data are excluded.</p>
+            <div class="combine-controls">
+                <label class="compact-control" for="combine-indicator-a">First data item
+                    <select id="combine-indicator-a"><option value="employment">Employment</option><option value="population">Population</option><option value="unemployment">Unemployment</option><option value="employment-rate">Employment rate (%)</option><option value="unemployment-rate">Unemployment rate (%)</option></select>
+                </label>
+                <label class="compact-control" for="combine-operation">Operation
+                    <select id="combine-operation"><option value="divide">Divide (A ÷ B)</option><option value="add">Add (A + B)</option><option value="subtract">Subtract (A − B)</option><option value="multiply">Multiply (A × B)</option></select>
+                </label>
+                <label class="compact-control" for="combine-indicator-b">Second data item
+                    <select id="combine-indicator-b"><option value="population">Population</option><option value="employment">Employment</option><option value="unemployment">Unemployment</option><option value="employment-rate">Employment rate (%)</option><option value="unemployment-rate">Unemployment rate (%)</option></select>
+                </label>
+                <button type="button" id="run-combination-button">Calculate and visualize</button>
+            </div>
+            <p id="combine-status" class="interaction-status" aria-live="polite">Select two indicators and an operation.</p>
+            <h3 id="combined-chart-title">Combined indicator · Top 10 municipalities</h3>
+            <div id="combined-chart" class="detail-chart" role="img" aria-label="Chart of the user-defined combined indicator"></div>
+            <button type="button" id="download-combined-svg" class="secondary-button">Download combined chart SVG</button>
+        </section>
+
+        <!-- Data sources -->
+        <section class="panel analysis-panel" id="sources-section">
+
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">TRANSPARENCY</p>
+                    <h2>Data Sources</h2>
+                </div>
+            </div>
+
+            <p class="panel-description">
+                Municipal boundaries are provided by Statistics Finland's
+                geographic data service. Population and labour-market
+                statistics are retrieved from Statistics Finland's StatFin API.
+            </p>
+
+            <ul>
+                <li>
+                    <a href="https://stat.fi/"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Statistics Finland
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://statfin.stat.fi/api1.html"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        StatFin API documentation
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://www.openstreetmap.org/copyright"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        OpenStreetMap contributors
+                    </a>
+                </li>
+            </ul>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="page-footer">
+            <span>Finland Data Explorer · Web Programming Project</span>
+            <span>Statistical data and map information are provided by their respective sources.</span>
+        </footer>
+
+    </main>
+
+</div>
+
+<!-- Leaflet library -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Frappe Charts library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-charts/1.6.2/frappe-charts.min.umd.js"></script>
+
+<!-- Application JavaScript -->
+<script src="js/api.js"></script>
+<script src="js/map.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/analysis.js"></script>
+<script src="js/dragdrop.js"></script>
+<script src="js/combined.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
